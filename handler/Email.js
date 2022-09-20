@@ -25,9 +25,9 @@ const Email = {
 
       let response = await sgMail.send(msg);
 
-      res.status(response[0].statusCode).json({
+      res.status(Status.OK.code).json({
         status: Status.type.SUCCESS,
-        data: req.body,
+        message: "Please check your email or spam box for verification link",
       });
     } catch (error) {
       res.status(Status.SERVER_ERROR.code).send({

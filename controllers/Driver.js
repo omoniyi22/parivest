@@ -13,6 +13,13 @@ const DriverController = {
           status: Status.type.FAILURE,
           reason: error.details[0].message,
         });
+
+      const emailExist = await Driver.findOne({ email: req.body.email });
+      if (emailExist)
+        res.status(Status.SERVER_ERROR.code).send({
+          status: Status.type.FAILURE,
+          reason: "Email Already Exist",
+        });
       else {
         verifySigup(req, res);
       }
@@ -38,7 +45,7 @@ const DriverController = {
 
         res.status(Status.CREATED.code).json({
           status: Status.type.SUCCESS,
-          reason: "Email Already Exist",
+          message: "Driver Successfully Registered",
           data: savedDriver,
         });
       }
@@ -74,7 +81,7 @@ const DriverController = {
         res.status(Status.OK.code).json({
           status: Status.type.SUCCESS,
           message: `Location Shared ${Status.OK.message}`,
-          data: updatedDriver,
+          data: updatedDriver.location,
         });
       }
     } catch (error) {
@@ -101,7 +108,7 @@ const DriverController = {
       await res.status(Status.OK.code).json({
         status: Status.type.SUCCESS,
         message: `${Status.OK.message}`,
-        data: nearbyCabs,
+        available_cabs: nearbyCabs,
       });
     } catch (error) {
       await res.status(Status.SERVER_ERROR.code).json({
