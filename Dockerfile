@@ -1,4 +1,5 @@
 FROM node
+
 copy . .
 
 RUN npm install
