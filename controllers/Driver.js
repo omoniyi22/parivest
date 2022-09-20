@@ -54,6 +54,7 @@ const DriverController = {
       res.status(Status.SERVER_ERROR.code).send({
         status: Status.type.FAILURE,
         error: Status.SERVER_ERROR.message,
+        message: "check for unique values",
       });
     }
   },
