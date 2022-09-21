@@ -4,4 +4,4 @@ copy . .
 
 RUN npm install
 
-CMD ["node", server]
+CMD ["node", "server"]
