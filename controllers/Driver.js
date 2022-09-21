@@ -86,6 +86,7 @@ const DriverController = {
         });
       }
     } catch (error) {
+      console.log({ error });
       res.status(Status.SERVER_ERROR.code).send({
         status: Status.type.FAILURE,
         reason: Status.SERVER_ERROR.message,
