@@ -3,5 +3,6 @@
 # dependencies
 /node_modules
 package-lock.json
-/test.js
+/stest.js
+
 .env

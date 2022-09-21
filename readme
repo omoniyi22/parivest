@@ -1,0 +1,46 @@
+# Parivest Challenge
+
+This is challenge is simple Cab Search System
+Application
+
+## Installation
+
+Use the package manager [node] to install the packages.
+
+Create an env file and fill these keys
+
+```bash
+DB
+SENDGRID_API_KEY
+APP_SECRET
+BASE_URL
+SIB_KEY
+APP_EMAIL
+PORT
+```
+
+```bash
+npm install
+```
+
+## Start Application
+
+```bash
+npm run start
+```
+
+## Run in Development Mode
+
+```bash
+npm run dev
+```
+
+## Test Application
+
+```bash
+npm run test
+```
+
+## Test Application
+
+API DOC [node](https://parivest-backend-challenge.herokuapp.com/v1/api)
