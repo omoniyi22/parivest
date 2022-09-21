@@ -24,6 +24,7 @@ const DriverController = {
         verifySigup(req, res);
       }
     } catch (error) {
+      console.log({ error });
       res.status(Status.SERVER_ERROR.code).send({
         status: Status.type.FAILURE,
         reason: Status.SERVER_ERROR.message,
@@ -66,7 +67,7 @@ const DriverController = {
         ...req.body,
       });
       if (error)
-        res.status(Status.BAD_REQUEST.code).json({
+        return res.status(Status.BAD_REQUEST.code).json({
           status: Status.type.FAILURE,
           reason: error.details[0].message,
         });
@@ -77,13 +78,15 @@ const DriverController = {
             status: Status.type.FAILURE,
             reason: `Driver Is ${Status.NOT_FOUND.message}`,
           });
-        driver.location = await req.body;
-        let updatedDriver = await driver.save();
-        res.status(Status.OK.code).json({
-          status: Status.type.SUCCESS,
-          message: `Location Shared ${Status.OK.message}`,
-          data: updatedDriver.location,
-        });
+        else {
+          driver.location = await req.body;
+          let updatedDriver = await driver.save();
+          res.status(Status.CREATED.code).json({
+            status: Status.type.SUCCESS,
+            message: `Location ${Status.CREATED.message}`,
+            data: updatedDriver.location,
+          });
+        }
       }
     } catch (error) {
       console.log({ error });

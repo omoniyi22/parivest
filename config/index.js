@@ -5,9 +5,10 @@ module.exports = {
   NODE_ENV,
   PORT,
   BASE_URL,
-  SENDGRID_API_KEY,
+  APP_EMAIL,
+  APP_PASSWORD,
   APP_SECRET,
-  SENDGRID_EMAIL
+  SIB_KEY
 } = process.env;
 
 // module.exports = IN_PROD = NODE_ENV === "development"

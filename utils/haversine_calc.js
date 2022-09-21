@@ -15,7 +15,7 @@ module.exports = (cabs, latitude, longitude) => {
     // and longitudes that are
     // in range of 4km
 
-    if (distance >= 4) {
+    if (distance <= 4) {
       nearbyCabs.push(cab);
     }
   }

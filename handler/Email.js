@@ -1,33 +1,45 @@
 const Auth = require("./../middleware/Auth");
 const Status = require("./../handler/Status");
-const sgMail = require("@sendgrid/mail");
 
-const { BASE_URL, SENDGRID_API_KEY, SENDGRID_EMAIL } = require("../config");
+const Sib = require("sib-api-v3-sdk");
+
+const { SIB_KEY, BASE_URL, APP_EMAIL } = require("../config");
+const client = Sib.ApiClient.instance;
+
+const apiKey = client.authentications["api-key"];
+apiKey.apiKey = SIB_KEY;
 
 const Email = {
   async verifySigup(req, res) {
     try {
       const token = Auth.generateToken(req.body);
-
       const redirectLink = `${BASE_URL}/drivers/verify_email/${token}`;
 
-      sgMail.setApiKey(SENDGRID_API_KEY);
-      const msg = {
-        to: req.body.email,
-        from: SENDGRID_EMAIL,
-        subject: "Join Us At Parivest",
-        text: `Please click the link below`,
-
-        html: `
-        <p><i> Please click <a href="${redirectLink}"> here</a>  to verify your email </i></p>
-        `,
+      const tranEmailApi = new Sib.TransactionalEmailsApi();
+      const sender = {
+        email: APP_EMAIL,
+        name: "Parivest",
       };
+      const receivers = [
+        {
+          email: req.body.email,
+        },
+      ];
 
-      let response = await sgMail.send(msg);
+      await tranEmailApi.sendTransacEmail({
+        sender,
+        to: receivers,
+        subject: "Join Us At Parivest",
+        textContent: `Please click the link below`,
+        htmlContent: `
+        <h1>We Are Glad to Have You </h1>
+        <p><i> Please click <a href="${redirectLink}"> here</a>  to verify your email </i></p>         `,
+      });
 
       res.status(Status.OK.code).json({
         status: Status.type.SUCCESS,
-        message: "Please check your email or spam box for verification link",
+        message:
+          "Please check your inbox or promotion or spam box for verification link",
       });
     } catch (error) {
       res.status(Status.SERVER_ERROR.code).send({
